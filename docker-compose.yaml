@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+  web:
+    build:
+      context: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - DJANGO_DB_HOST=db
+      - DJANGO_DB_PORT=5432
+      - DJANGO_DB_NAME=postgres
+      - DJANGO_DB_USER=postgres
+      - DJANGO_DB_PASSWORD=postgres
+    networks:
+      - db_network
+    volumes:
+      - .:/app
+    command: >
+      bash -c "
+        python manage.py makemigrations &&
+        python manage.py migrate &&
+        python manage.py create_superuser_command &&
+        python manage.py collectstatic --no-input &&
+        python manage.py run_news_parsing_service_command &&
+        python manage.py runcrons &&
+        python manage.py runserver 0.0.0.0:8000"
+
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "15432:5432"
+    networks:
+      - db_network
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-q", "-d", "postgres", "-U", "postgres", "-h", "127.0.0.1", "-p", "15432" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+networks:
+  db_network:
