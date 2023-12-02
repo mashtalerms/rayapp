@@ -44,7 +44,7 @@ Project for reading and creating news and comments with authentication
 ## Development local configuration with docker-compose ##
 
 1) Use docker-compose.dev.yaml from within deploy folder
-    - `docker-compose -f docker-compose.yaml up -d`
+    - `docker-compose -f docker-compose.yaml up -d --build`
 2) The following would be done:
     - postgresql container would start
     - migrations would apply
