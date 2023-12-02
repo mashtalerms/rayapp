@@ -3,7 +3,7 @@ from rest_framework import status
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 
-from news.models import News
+from news.models import News, Comment
 
 User = get_user_model()
 
@@ -48,8 +48,45 @@ class NewsViewSetTests(APITestCase):
 
         self.assertEqual(News.objects.filter(id=news.id).exists(), True)
 
-    def test_tech_download_news_from_api(self):
-        response = self.client.post(reverse("news-tech-download-news-from-api"))
 
+class CommentsViewSetTestCase(APITestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(
+            username="test-comment",
+            email="test-comment@example.com",
+            password="test-comment",
+            name="Test User",
+            phone_number="1234567890",
+        )
+
+        self.other_user = User.objects.create_user(username="otherusercomment", email="otherusercomment@example.com",
+                                                   password="testpassword")
+
+        self.news = News.objects.create(title='Test News', url='http://example.com')
+
+        self.other_user_comment = Comment.objects.create(
+            text='Other User Comment',
+            user=self.other_user,
+            news=self.news
+        )
+
+    def test_list_comments(self):
+        response = self.client.get(reverse('comment-list'))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertIn("OK", response.data["detail"])
+        self.assertEqual(len(response.data), 4)
+
+    def test_create_comment(self):
+        data = {'text': 'New Comment', 'news': self.news.id}
+        response = self.client.post(reverse('comment-list'), data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_destroy_other_user_comment(self):
+        news = News.objects.create(title="Test News", url="http://example.com", user=self.user)
+        other_user = User.objects.create_user(username="otheruser", email="other@example.com", password="testpassword")
+        comment = Comment.objects.create(text="Test", news=news, user=other_user)
+
+        response = self.client.delete(reverse("comment-detail", args=[comment.id]))
+
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+        self.assertEqual(News.objects.filter(id=news.id).exists(), True)

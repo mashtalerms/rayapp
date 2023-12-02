@@ -40,7 +40,7 @@ class AuthenticationTests(APITestCase):
         self.assertIn("email", response.data)
         self.assertIn("password", response.data)
         self.assertIn("repeat_password", response.data)
-        self.assertIn("first_name", response.data)
+        self.assertIn("name", response.data)
         self.assertIn("username", response.data)
         self.assertIn("phone_number", response.data)
 

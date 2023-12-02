@@ -1,19 +1,8 @@
-from rest_framework import serializers
-
 from news.models.news import News
+from news.serializers.base import BaseUserSerializer
 
 
-class NewsSerializer(serializers.ModelSerializer):
-    user_created = serializers.SerializerMethodField()
-
-    def get_user_created(self, obj):
-        if obj.user:
-            user_info = {
-                'email': obj.user.email,
-                'name': obj.user.name
-            }
-            return user_info
-
+class NewsSerializer(BaseUserSerializer):
     class Meta:
         model = News
         fields = '__all__'
