@@ -1,5 +1,7 @@
 # Description #
 
+Project for reading and creating news and comments with authorisation
+
 ### Stack ###
 
 - python3.11, Django - backend
@@ -15,7 +17,7 @@
     - permissions are correctly configured to read/update/delete for all entities
 3. Tests for whole CRUD of news and accounts apps (in tests.py files)
 4. PyMemcacheCache used for caching
-5. django_cron used for periodic tasks
+5. django_cron used for periodic tasks (db backup and API downloading)
 6. asyncio used for downloading data from API
 
 ## How to: ##
@@ -40,6 +42,7 @@
     - `python manage.py test`
 
 ## Development local configuration with docker-compose ##
+
 1) Use docker-compose.dev.yaml from within deploy folder
     - `docker compose -f docker-compose.yaml up -d`
 2) The following would be done:
