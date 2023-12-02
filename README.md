@@ -1,6 +1,6 @@
 # Description #
 
-Project for reading and creating news and comments with authorisation
+Project for reading and creating news and comments with authentication
 
 ### Stack ###
 
@@ -16,9 +16,9 @@ Project for reading and creating news and comments with authorisation
     - full CRUD with filters and soring for news and comments
     - permissions are correctly configured to read/update/delete for all entities
 3. Tests for whole CRUD of news and accounts apps (in tests.py files)
-4. PyMemcacheCache used for caching
-5. django_cron used for periodic tasks (db backup and API downloading)
-6. asyncio used for downloading data from API
+4. PyMemcacheCache is used for caching
+5. django_cron is used for periodic tasks (db backup and API downloading)
+6. asyncio is used for downloading data from API
 
 ## How to: ##
 
@@ -44,7 +44,7 @@ Project for reading and creating news and comments with authorisation
 ## Development local configuration with docker-compose ##
 
 1) Use docker-compose.dev.yaml from within deploy folder
-    - `docker compose -f docker-compose.yaml up -d`
+    - `docker-compose -f docker-compose.yaml up -d`
 2) The following would be done:
     - postgresql container would start
     - migrations would apply
