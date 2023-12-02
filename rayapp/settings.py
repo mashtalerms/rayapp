@@ -228,7 +228,7 @@ PARSING_URL_API = 'https://mediametrics.ru/data/archive/day'
 
 CRON_CLASSES = [
     "rayapp.cron.DownloadNewsFromApiCron",
-    "rayapp.cron.DownloadNewsFromApiCron",
+    "rayapp.cron.BackupDatabaseCronJob",
 ]
 
 LOGGING = {

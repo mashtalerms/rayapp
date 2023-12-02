@@ -14,11 +14,8 @@ class DownloadNewsFromApiCron(CronJobBase):
 
 
 class BackupDatabaseCronJob(CronJobBase):
-    RUN_EVERY_MINS = 1
-
-    schedule = Schedule(run_every_mins=RUN_EVERY_MINS)
-    # RUN_AT_TIMES = ['03:00']
-    # schedule = Schedule(run_at_times=RUN_AT_TIMES)
+    RUN_AT_TIMES = ['03:00']
+    schedule = Schedule(run_at_times=RUN_AT_TIMES)
     code = 'rayapp.backup_database_cron_job'
 
     def do(self):

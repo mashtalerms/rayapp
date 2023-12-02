@@ -3,7 +3,6 @@ from typing import List, Coroutine
 
 from aiohttp import ClientSession
 from asgiref.sync import sync_to_async
-from channels.db import database_sync_to_async
 
 from news.models import News
 

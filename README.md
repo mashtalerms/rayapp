@@ -1,62 +1,57 @@
-Django Project with Docker
-This project is a Django-based web application with multiple apps, including account and news. The application can be
-run using Docker containers.
+# Description #
 
-Prerequisites
-Docker
-Docker Compose
-Getting Started
+### Stack ###
 
-1. Clone the Repository
-   bash
-   Copy code
-   git clone https://github.com/your_username/your_django_project.git
-   cd your_django_project
-2. Build Docker Images
-   bash
-   Copy code
-   docker-compose build
-3. Run Docker Containers
-   bash
-   Copy code
-   docker-compose up
-   The application will be accessible at http://localhost:8000.
+- python3.11, Django - backend
+- Postgres - database
 
-4. Initialize the Database
-   bash
-   Copy code
-   docker-compose exec web python manage.py migrate
-   docker-compose exec web python manage.py create_superuser_command
-5. Access the Django Admin
-   Visit http://localhost:8000/admin and log in with the superuser credentials.
+## Features ##
 
-Available Services
-web: Django application server
-db: PostgreSQL database server
-Project Structure
-plaintext
-Copy code
-your_django_project/
-|-- account/
-|-- news/
-|-- your_django_project/
-| |-- settings.py
-| |-- urls.py
-| |-- ...
-|-- media/
-|-- static/
-|-- docker-compose.yml
-|-- Dockerfile
-|-- ...
-account: Django app for user authentication and profiles.
-news: Django app for managing news articles.
-your_django_project: Main Django project directory.
-Notes
-The backup service in docker-compose.yml performs a database backup every 24 hours. Adjust the sleep duration as needed.
-Customize the environment variables in docker-compose.yml according to your project settings.
-Follow best practices for securing Django applications and Docker containers in production.
-Contributing
-Contributions are welcome! Please create an issue or submit a pull request.
+1. Authentication (rayapp/accounts)
+    - django authentication
+    - profile update
+2. Main logic (rayapp/news)
+    - full CRUD with filters and soring for news and comments
+    - permissions are correctly configured to read/update/delete for all entities
+3. Tests for whole CRUD of news and accounts apps (in tests.py files)
+4. PyMemcacheCache used for caching
+5. django_cron used for periodic tasks
+6. asyncio used for downloading data from API
 
-License
-This project is licensed under the MIT License - see the LICENSE file for details.
+## How to: ##
+
+## Development local configuration ##
+
+1) Create venv
+    - `python -m venv venv`
+2) Install dependencies
+    - `pip install -r requirements.txt`
+3) Run docker container for postgres
+    - `docker-compose -f docker-compose.db.yaml up -d`
+4) Make migrations
+    - `manage.py makemigrations`
+    - `manage.py migrate`
+5) Run server
+    - `manage.py runserver`
+6) Createsuperuser
+    - `manage.py createsuperuser`
+7) Connect to admin panel at http://127.0.0.1:8000/admin/
+8) Run tests from main folder
+    - `python manage.py test`
+
+## Development local configuration with docker-compose ##
+1) Use docker-compose.dev.yaml from within deploy folder
+    - `docker compose -f docker-compose.yaml up -d`
+2) The following would be done:
+    - postgresql container would start
+    - migrations would apply
+    - api container would start
+    - static files would be collected
+    - news would be downloaded from API
+    - superuser with credentials: "admin", "admin" would be created
+
+## Project links
+
+1) Admin - http://localhost:8000/admin
+2) Swagger - http://localhost:8000/api/schema/swagger-ui
+3) Postman - https://www.postman.com/universal-crater-955516/workspace/rayapp/overview

@@ -14,3 +14,4 @@ class Command(BaseCommand):
             await service.main()
 
         run(async_main())
+        print('News has been downloaded')
