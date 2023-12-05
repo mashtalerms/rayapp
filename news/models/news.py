@@ -23,9 +23,5 @@ class News(models.Model):
         verbose_name_plural = 'Новости'
         ordering = ('-publication_time',)
         indexes = [
-            models.Index(fields=['publication_time']),
-            models.Index(fields=['user']),
             models.Index(fields=['title']),
-            models.Index(fields=['url']),
-            models.Index(fields=['source']),
         ]
